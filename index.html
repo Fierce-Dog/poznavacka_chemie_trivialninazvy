@@ -6,7 +6,7 @@
     <title>Nekonečná Poznávačka</title>
     <style>
         :root { --primary: #4a90e2; --success: #2ecc71; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: flex-start; min-height: auto; padding: 10px; margin: 0; }
         .card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
         img { 
 			width: 100%; 
@@ -17,9 +17,9 @@
 			background: #fdfdfd; /* Jemné pozadí, kdyby byl obrázek úzký */
 		}
         input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--primary); }
-        button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; margin-top: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        #msg { margin-top: 15px; font-weight: bold; min-height: 20px; }
+        input:focus { border-color: #478fce; }
+        button { width: 100%; background: #478fce; color: white; border: none; padding: 12px; border-radius: 10px; margin-top: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        #msg { margin-top: 15px; font-weight: bold; min-height: 50px; }
         #info { color: gray; font-size: 0.8rem; margin-top: 10px; }
 		.card { 
 			display: flex; 
@@ -40,7 +40,7 @@
 		#input-area {
 			order: 4; /* Vstupní pole a tlačítko úplně dole */
 		}
-		.back-link {
+        .back-link {
             display: block; /* Zajistí, že odkaz zabere celou šířku a umožní zarovnání */
             text-align: left; /* Tlačí text odkazu doleva */
             margin-bottom: 20px;
@@ -57,12 +57,12 @@
 <body>
 
 <div class="card">
-	<a href="https://fierce-dog.github.io/poznavacky_linktree/" class="back-link">⬅ Zpět na rozcestí</a>
+    <a href="https://fierce-dog.github.io/poznavacky_linktree/" class="back-link">⬅ Zpět na rozcestí</a>
     <p id="msg">Máš 3 pokusy</p>
     <p id="info"></p>
     <img id="pic" src="" alt="Načítám...">
     <div id="input-area">
-        <input type="text" id="guess" placeholder="Co je na obrázku?" autocomplete="off" onkeypress="if(event.key === 'Enter') check()">
+        <input type="text" id="guess" placeholder="Co je to sloučeninu?" autocomplete="off" onkeypress="if(event.key === 'Enter') check()">
         <button onclick="check()">Odeslat</button>
     </div>
 </div>
@@ -70,172 +70,185 @@
 <script>
     // --- VAŠE DATA ---
     const items = [
-	{ file: "2-deoxy-d-ribosa.jpg", name: "2-deoxy-D-ribosa" },
-	{ file: "2H-pyran.jpg", name: "2H-pyran" },
-	{ file: "4H-pyran.jpg", name: "4H-pyran" },
-	{ file: "acetaldehyd.jpg", name: "Acetaldehyd" },
-	{ file: "aceton.jpg", name: "Aceton" },
-	{ file: "acetylen.jpg", name: "Acetylen" },
-	{ file: "acetylcholin.jpg", name: "Acetylcholin" },
-	{ file: "adenin.jpg", name: "Adenin" },
-	{ file: "alanin.jpg", name: "Alanin" },
-	{ file: "alfa-naftol.jpg", name: "Alfa-naftol" },
-	{ file: "anilin.jpg", name: "Anilin" },
-	{ file: "antracen.jpg", name: "Antracen" },
-	{ file: "arginin.jpg", name: "Arginin" },
-	{ file: "asparagin.jpg", name: "Asparagin" },
-	{ file: "benzaldehyd.jpg", name: "Benzaldehyd" },
-	{ file: "benzen.jpg", name: "Benzen" },
-	{ file: "beta-naftol.jpg", name: "Beta-naftol" },
-	{ file: "butyraldehyd.jpg", name: "Butyraldehyd" },
-	{ file: "cymen.jpg", name: "Cymen" },
-	{ file: "cystein.jpg", name: "Cystein" },
-	{ file: "cytosin.jpg", name: "Cytosin" },
-	{ file: "d-fruktofuranosa.jpg", name: "D-fruktofuranosa" },
-	{ file: "d-fruktopyranosa.jpg", name: "D-fruktopyranosa" },
-	{ file: "d-fruktosa.jpg", name: "D-fruktosa" },
-	{ file: "d-galaktosa.jpg", name: "D-galaktosa" },
-	{ file: "d-glukofuranosa.jpg", name: "D-glukofuranosa" },
-	{ file: "d-glukopyranosa.jpg", name: "D-glukopyranosa" },
-	{ file: "d-glukosa.jpg", name: "D-glukosa" },
-	{ file: "d-mannosa.jpg", name: "D-mannosa" },
-	{ file: "d-ribofuranosa.jpg", name: "D-ribofuranosa" },
-	{ file: "d-ribosa.jpg", name: "D-ribosa" },
-	{ file: "d-xylosa.jpg", name: "D-xylosa" },
-	{ file: "ethylen.jpg", name: "Ethylen" },
-	{ file: "ethylenglykol.jpg", name: "Ethylenglykol" },
-	{ file: "fenantren.jpg", name: "Fenantren" },
-	{ file: "fenol.jpg", name: "Fenol" },
-	{ file: "fenylalanin.jpg", name: "Fenylalanin" },
-	{ file: "fluoroform.jpg", name: "Fluoroform" },
-	{ file: "formaldehyd.jpg", name: "Formaldehyd" },
-	{ file: "furan.jpg", name: "Furan" },
-	{ file: "glutamin.jpg", name: "Glutamin" },
-	{ file: "glycerol.jpg", name: "Glycerol" },
-	{ file: "glycin.jpg", name: "Glycin" },
-	{ file: "guanin.jpg", name: "Guanin" },
-	{ file: "histidin.jpg", name: "Histidin" },
-	{ file: "chinolin.jpg", name: "Chinolin" },
-	{ file: "chloroform.jpg", name: "Chloroform" },
-	{ file: "chroman.jpg", name: "Chroman" },
-	{ file: "indol.jpg", name: "Indol" },
-	{ file: "isoleucin.jpg", name: "Isoleucin" },
-	{ file: "jodoform.jpg", name: "Jodoform" },
-	{ file: "kumen.jpg", name: "Kumen" },
-	{ file: "kyselina_adipova.jpg", name: "Kyselina adipová" },
-	{ file: "kyselina_asparagova.jpg", name: "Kyselina asparagová" },
-	{ file: "kyselina_benzoova.jpg", name: "Kyselina benzoová" },
-	{ file: "kyselina_citronova.jpg", name: "Kyselina citronová" },
-	{ file: "kyselina_ftalova.jpg", name: "Kyselina ftalová" },
-	{ file: "kyselina_fumarova.jpg", name: "Kyselina fumarová" },
-	{ file: "kyselina_glutamova.jpg", name: "Kyselina glutamová" },
-	{ file: "kyselina_glutarova.jpg", name: "Kyselina glutarová" },
-	{ file: "kyselina_isoftalova.jpg", name: "Kyselina isoftalová" },
-	{ file: "kyselina_jablecna.jpg", name: "Kyselina jablečná" },
-	{ file: "kyselina_jantarova.jpg", name: "Kyselina jantarová" },
-	{ file: "kyselina_kaprinova.jpg", name: "Kyselina kaprinová" },
-	{ file: "kyselina_kapronova.jpg", name: "Kyselina kapronová" },
-	{ file: "kyselina_kaprylova.jpg", name: "Kyselina kaprylová" },
-	{ file: "kyselina_laurova.jpg", name: "Kyselina laurová" },
-	{ file: "kyselina_linolenova.jpg", name: "Kyselina linolenová" },
-	{ file: "kyselina_linolova.jpg", name: "Kyselina linolová" },
-	{ file: "kyselina_malonova.jpg", name: "Kyselina malonová" },
-	{ file: "kyselina_maselna.jpg", name: "Kyselina máselná" },
-	{ file: "kyselina_mlecna.jpg", name: "Kyselina mléčná" },
-	{ file: "kyselina_mocova_enol.jpg", name: "Kyselina močová enol" },
-	{ file: "kyselina_mocova_oxo.jpg", name: "Kyselina močová oxo" },
-	{ file: "kyselina_mravenci.jpg", name: "Kyselina mravenčí" },
-	{ file: "kyselina_myristova.jpg", name: "Kyselina myristová" },
-	{ file: "kyselina_octova.jpg", name: "Kyselina octová" },
-	{ file: "kyselina_olejova.jpg", name: "Kyselina olejová" },
-	{ file: "kyselina_palmitova.jpg", name: "Kyselina palmitová" },
-	{ file: "kyselina_propionova.jpg", name: "Kyselina propionová" },
-	{ file: "kyselina_pyrohroznova.jpg", name: "Kyselina pyrohroznová" },
-	{ file: "kyselina_stavelova.jpg", name: "Kyselina šťavelová" },
-	{ file: "kyselina_stearova.jpg", name: "Kyselina stearová" },
-	{ file: "kyselina_tereftalova.jpg", name: "Kyselina tereftalová" },
-	{ file: "kyselina_valerova.jpg", name: "Kyselina valerová" },
-	{ file: "kyselina_vinna.jpg", name: "Kyselina vinná" },
-	{ file: "leucin.jpg", name: "Leucin" },
-	{ file: "l-fruktofuranosa.jpg", name: "L-fruktofuranosa" },
-	{ file: "l-fruktosa.jpg", name: "L-fruktosa" },
-	{ file: "l-galaktosa.jpg", name: "L-galaktosa" },
-	{ file: "l-glukopyranosa.jpg", name: "L-glukopyranosa" },
-	{ file: "l-glukosa.jpg", name: "L-glukosa" },
-	{ file: "l-mannosa.jpg", name: "L-mannosa" },
-	{ file: "l-ribosa.jpg", name: "L-ribosa" },
-	{ file: "l-xylosa.jpg", name: "L-xylosa" },
-	{ file: "lysin.jpg", name: "Lysin" },
-	{ file: "methionin.jpg", name: "Methionin" },
-	{ file: "mocovina.jpg", name: "Močovina" },
-	{ file: "m-xylen.jpg", name: "M-xylen" },
-	{ file: "naftalen.jpg", name: "naftalen" },
-	{ file: "o-benzochinon.jpg", name: "O-benzochinon" },
-	{ file: "ornitin.jpg", name: "Ornitin" },
-	{ file: "oxiran.jpg", name: "Oxiran" },
-	{ file: "o-xylen.jpg", name: "O-xylen" },
-	{ file: "p-benzochinon.jpg", name: "P-benzochinon" },
-	{ file: "perfluorethen.jpg", name: "Perfluorethen" },
-	{ file: "porfin.jpg", name: "Porfin" },
-	{ file: "prolin.jpg", name: "Prolin" },
-	{ file: "propylenglykol.jpg", name: "Propylenglykol" },
-	{ file: "purin.jpg", name: "Purin" },
-	{ file: "p-xylen.jpg", name: "P-xylen" },
-	{ file: "pyridin.jpg", name: "Pyridin" },
-	{ file: "pyrimidin.jpg", name: "Pyrimidin" },
-	{ file: "pyrrol.jpg", name: "Pyrrol" },
-	{ file: "selenocystein.jpg", name: "Selenocystein" },
-	{ file: "serin.jpg", name: "Serin" },
-	{ file: "skatol.jpg", name: "Skatol" },
-	{ file: "styren.jpg", name: "Styren" },
-	{ file: "taurin.jpg", name: "Taurin" },
-	{ file: "tetrahydrofuran.jpg", name: "Tetrahydrofuran" },
-	{ file: "tetrahydropyran.jpg", name: "Tetrahydropyran" },
-	{ file: "thiofen.jpg", name: "Thiofen" },
-	{ file: "threonin.jpg", name: "Threonin" },
-	{ file: "thymin.jpg", name: "Thymin" },
-	{ file: "toluen.jpg", name: "Toluen" },
-	{ file: "tryptofan.jpg", name: "Tryptofan" },
-	{ file: "tyrosin.jpg", name: "Tyrosin" },
-	{ file: "uracil.jpg", name: "Uracil" },
-	{ file: "valin.jpg", name: "Valin" },
-    { file: "vinylchlorid.jpg", name: "Vinylchlorid" }
+        { file: "2-deoxy-d-ribosa.jpg", name: "2-deoxy-D-ribosa" },
+        { file: "2H-pyran.jpg", name: "2H-pyran" },
+        { file: "4H-pyran.jpg", name: "4H-pyran" },
+        { file: "acetaldehyd.jpg", name: "Acetaldehyd" },
+        { file: "aceton.jpg", name: "Aceton" },
+        { file: "acetylen.jpg", name: "Acetylen" },
+        { file: "acetylcholin.jpg", name: "Acetylcholin" },
+        { file: "adenin.jpg", name: "Adenin" },
+        { file: "alanin.jpg", name: "Alanin" },
+        { file: "alfa-naftol.jpg", name: "Alfa-naftol" },
+        { file: "anilin.jpg", name: "Anilin" },
+        { file: "antracen.jpg", name: "Antracen" },
+        { file: "arginin.jpg", name: "Arginin" },
+        { file: "asparagin.jpg", name: "Asparagin" },
+        { file: "benzaldehyd.jpg", name: "Benzaldehyd" },
+        { file: "benzen.jpg", name: "Benzen" },
+        { file: "beta-naftol.jpg", name: "Beta-naftol" },
+        { file: "butyraldehyd.jpg", name: "Butyraldehyd" },
+        { file: "cymen.jpg", name: "Cymen" },
+        { file: "cystein.jpg", name: "Cystein" },
+        { file: "cytosin.jpg", name: "Cytosin" },
+        { file: "d-fruktofuranosa.jpg", name: "D-fruktofuranosa" },
+        { file: "d-fruktopyranosa.jpg", name: "D-fruktopyranosa" },
+        { file: "d-fruktosa.jpg", name: "D-fruktosa" },
+        { file: "d-galaktosa.jpg", name: "D-galaktosa" },
+        { file: "d-glukofuranosa.jpg", name: "D-glukofuranosa" },
+        { file: "d-glukopyranosa.jpg", name: "D-glukopyranosa" },
+        { file: "d-glukosa.jpg", name: "D-glukosa" },
+        { file: "d-mannosa.jpg", name: "D-mannosa" },
+        { file: "d-ribofuranosa.jpg", name: "D-ribofuranosa" },
+        { file: "d-ribosa.jpg", name: "D-ribosa" },
+        { file: "d-xylosa.jpg", name: "D-xylosa" },
+        { file: "ethylen.jpg", name: "Ethylen" },
+        { file: "ethylenglykol.jpg", name: "Ethylenglykol" },
+        { file: "fenantren.jpg", name: "Fenantren" },
+        { file: "fenol.jpg", name: "Fenol" },
+        { file: "fenylalanin.jpg", name: "Fenylalanin" },
+        { file: "fluoroform.jpg", name: "Fluoroform" },
+        { file: "formaldehyd.jpg", name: "Formaldehyd" },
+        { file: "furan.jpg", name: "Furan" },
+        { file: "glutamin.jpg", name: "Glutamin" },
+        { file: "glycerol.jpg", name: "Glycerol" },
+        { file: "glycin.jpg", name: "Glycin" },
+        { file: "guanin.jpg", name: "Guanin" },
+        { file: "histidin.jpg", name: "Histidin" },
+        { file: "chinolin.jpg", name: "Chinolin" },
+        { file: "chloroform.jpg", name: "Chloroform" },
+        { file: "chroman.jpg", name: "Chroman" },
+        { file: "indol.jpg", name: "Indol" },
+        { file: "isoleucin.jpg", name: "Isoleucin" },
+        { file: "jodoform.jpg", name: "Jodoform" },
+        { file: "kumen.jpg", name: "Kumen" },
+        { file: "kyselina_adipova.jpg", name: "Kyselina adipová" },
+        { file: "kyselina_asparagova.jpg", name: "Kyselina asparagová" },
+        { file: "kyselina_benzoova.jpg", name: "Kyselina benzoová" },
+        { file: "kyselina_citronova.jpg", name: "Kyselina citronová" },
+        { file: "kyselina_ftalova.jpg", name: "Kyselina ftalová" },
+        { file: "kyselina_fumarova.jpg", name: "Kyselina fumarová" },
+        { file: "kyselina_glutamova.jpg", name: "Kyselina glutamová" },
+        { file: "kyselina_glutarova.jpg", name: "Kyselina glutarová" },
+        { file: "kyselina_isoftalova.jpg", name: "Kyselina isoftalová" },
+        { file: "kyselina_jablecna.jpg", name: "Kyselina jablečná" },
+        { file: "kyselina_jantarova.jpg", name: "Kyselina jantarová" },
+        { file: "kyselina_kaprinova.jpg", name: "Kyselina kaprinová" },
+        { file: "kyselina_kapronova.jpg", name: "Kyselina kapronová" },
+        { file: "kyselina_kaprylova.jpg", name: "Kyselina kaprylová" },
+        { file: "kyselina_laurova.jpg", name: "Kyselina laurová" },
+        { file: "kyselina_linolenova.jpg", name: "Kyselina linolenová" },
+        { file: "kyselina_linolova.jpg", name: "Kyselina linolová" },
+        { file: "kyselina_malonova.jpg", name: "Kyselina malonová" },
+        { file: "kyselina_maselna.jpg", name: "Kyselina máselná" },
+        { file: "kyselina_mlecna.jpg", name: "Kyselina mléčná" },
+        { file: "kyselina_mocova_enol.jpg", name: "Kyselina močová enol" },
+        { file: "kyselina_mocova_oxo.jpg", name: "Kyselina močová oxo" },
+        { file: "kyselina_mravenci.jpg", name: "Kyselina mravenčí" },
+        { file: "kyselina_myristova.jpg", name: "Kyselina myristová" },
+        { file: "kyselina_octova.jpg", name: "Kyselina octová" },
+        { file: "kyselina_olejova.jpg", name: "Kyselina olejová" },
+        { file: "kyselina_palmitova.jpg", name: "Kyselina palmitová" },
+        { file: "kyselina_propionova.jpg", name: "Kyselina propionová" },
+        { file: "kyselina_pyrohroznova.jpg", name: "Kyselina pyrohroznová" },
+        { file: "kyselina_stavelova.jpg", name: "Kyselina šťavelová" },
+        { file: "kyselina_stearova.jpg", name: "Kyselina stearová" },
+        { file: "kyselina_tereftalova.jpg", name: "Kyselina tereftalová" },
+        { file: "kyselina_valerova.jpg", name: "Kyselina valerová" },
+        { file: "kyselina_vinna.jpg", name: "Kyselina vinná" },
+        { file: "leucin.jpg", name: "Leucin" },
+        { file: "l-fruktofuranosa.jpg", name: "L-fruktofuranosa" },
+        { file: "l-fruktosa.jpg", name: "L-fruktosa" },
+        { file: "l-galaktosa.jpg", name: "L-galaktosa" },
+        { file: "l-glukopyranosa.jpg", name: "L-glukopyranosa" },
+        { file: "l-glukosa.jpg", name: "L-glukosa" },
+        { file: "l-mannosa.jpg", name: "L-mannosa" },
+        { file: "l-ribosa.jpg", name: "L-ribosa" },
+        { file: "l-xylosa.jpg", name: "L-xylosa" },
+        { file: "lysin.jpg", name: "Lysin" },
+        { file: "methionin.jpg", name: "Methionin" },
+        { file: "mocovina.jpg", name: "Močovina" },
+        { file: "m-xylen.jpg", name: "M-xylen" },
+        { file: "naftalen.jpg", name: "naftalen" },
+        { file: "o-benzochinon.jpg", name: "O-benzochinon" },
+        { file: "ornitin.jpg", name: "Ornitin" },
+        { file: "oxiran.jpg", name: "Oxiran" },
+        { file: "o-xylen.jpg", name: "O-xylen" },
+        { file: "p-benzochinon.jpg", name: "P-benzochinon" },
+        { file: "perfluorethen.jpg", name: "Perfluorethen" },
+        { file: "porfin.jpg", name: "Porfin" },
+        { file: "prolin.jpg", name: "Prolin" },
+        { file: "propylenglykol.jpg", name: "Propylenglykol" },
+        { file: "purin.jpg", name: "Purin" },
+        { file: "p-xylen.jpg", name: "P-xylen" },
+        { file: "pyridin.jpg", name: "Pyridin" },
+        { file: "pyrimidin.jpg", name: "Pyrimidin" },
+        { file: "pyrrol.jpg", name: "Pyrrol" },
+        { file: "selenocystein.jpg", name: "Selenocystein" },
+        { file: "serin.jpg", name: "Serin" },
+        { file: "skatol.jpg", name: "Skatol" },
+        { file: "styren.jpg", name: "Styren" },
+        { file: "taurin.jpg", name: "Taurin" },
+        { file: "tetrahydrofuran.jpg", name: "Tetrahydrofuran" },
+        { file: "tetrahydropyran.jpg", name: "Tetrahydropyran" },
+        { file: "thiofen.jpg", name: "Thiofen" },
+        { file: "threonin.jpg", name: "Threonin" },
+        { file: "thymin.jpg", name: "Thymin" },
+        { file: "toluen.jpg", name: "Toluen" },
+        { file: "tryptofan.jpg", name: "Tryptofan" },
+        { file: "tyrosin.jpg", name: "Tyrosin" },
+        { file: "uracil.jpg", name: "Uracil" },
+        { file: "valin.jpg", name: "Valin" },
+        { file: "vinylchlorid.jpg", name: "Vinylchlorid" }
     ];
 
+    // --- GLOBÁLNÍ PROMĚNNÉ (nech si je nahoře nad funkcemi) ---
     let current;
     let attempts = 0;
-    let pool = []; // Aktuální balíček pro dané kolo
+    let pool = []; 
+    let correctTotal = 0; 
+    let shownTotal = 0; 
 
-	function next() {
+    function next() {
         const msgField = document.getElementById("msg");
-        const infoField = document.getElementById("info");
-        
-        // Reset hlášek nad obrázkem
-        msgField.innerText = "Poznej obrázek";
-        msgField.style.color = "gray";
-        msgField.style.fontSize = "18px";
-        msgField.style.fontWeight = "normal";
+        const inputField = document.getElementById("guess");
 
+        // 1. KONTROLA KONCE KOLA
         if (pool.length === 0) {
             pool = [...items];
+            correctTotal = 0; 
+            shownTotal = 0;
+            // Tuto hlášku uvidíš jen na zlomek vteřiny, než se vybere první zvíře
             msgField.innerText = "Začínáme nové kolo!";
+            msgField.style.color = "blue";
+        } else {
+            msgField.innerText = "Poznej sloučeninu";
             msgField.style.color = "blue";
         }
 
+        // 2. VÝBĚR NOVÉHO ZVÍŘETE
+        attempts = 0; 
         const idx = Math.floor(Math.random() * pool.length);
         current = pool[idx];
-        
+
+        // 3. RESET POLÍ
         document.getElementById("pic").src = current.file;
-        document.getElementById("guess").value = "";
-        document.getElementById("guess").disabled = false;
-        document.getElementById("guess").focus();
-        attempts = 0;
+        inputField.value = "";
+        inputField.disabled = false;
+        inputField.focus();
+        
+        // Smazal jsem odtud shownTotal++, aby se to nepřičítalo dopředu
         updateInfo();
     }
 
     function updateInfo() {
-        document.getElementById("info").innerText = `Zbývá v kole: ${pool.length} | Pokus: ${attempts + 1}/3`;
-        document.getElementById("info").style.color = "#666";
+        const infoElement = document.getElementById("info");
+        if (infoElement) {
+            // Math.min(attempts + 1, 3) zajistí, že i při prohře zůstane v textu "3/3" a neskočí tam "4/3"
+            const displayAttempts = Math.min(attempts + 1, 3);
+            infoElement.innerText = `Skóre: ${correctTotal}/${shownTotal}/${items.length} | Zbývá v kole: ${pool.length} | Pokus: ${displayAttempts}/3`;
+            infoElement.style.color = "#666";
+        }
     }
 
     function check() {
@@ -247,33 +260,45 @@
         if (val === "" || inputField.disabled) return;
 
         if (val === ans) {
-            msgField.innerText = "✓ Výborně, to je ono!";
+            // --- SCÉNÁŘ: UHODNUTO ---
+            correctTotal++; // Bod nahoru
+            shownTotal++;   // Úloha splněna
+            
+            msgField.innerHTML = `Správně!<br><span style="font-size: 21px;">${current.name}</span>`;
             msgField.style.color = "green";
             inputField.disabled = true;
             
             pool = pool.filter(i => i !== current);
+            updateInfo(); // Překreslíme skóre na obrazovce
             setTimeout(next, 1500);
+
         } else {
+            // --- SCÉNÁŘ: CHYBA ---
             attempts++;
             if (attempts < 3) {
+                // Pořád máš pokusy
                 msgField.innerText = `✗ Špatně, zkus to znovu!`;
                 msgField.style.color = "orange";
                 inputField.value = "";
                 inputField.focus();
-                updateInfo();
+                updateInfo(); // Aktualizujeme jen číslo pokusu (1/3 -> 2/3)
             } else {
-                msgField.innerHTML = `Bohužel. Správně bylo:<br><span style="font-size: 28px;">${current.name}</span>`;
+                // --- SCÉNÁŘ: PROHRA (PO 3. POKUSU) ---
+                shownTotal++; // Úloha splněna (nepřidáváme bod do correctTotal)
+                
+                msgField.innerHTML = `Správně bylo:<br><span style="font-size: 21px;">${current.name}</span>`;
                 msgField.style.color = "red";
                 msgField.style.fontWeight = "bold";
                 inputField.disabled = true;
                 
                 pool = pool.filter(i => i !== current);
+                updateInfo(); // Překreslíme skóre
                 setTimeout(next, 5000);
             }
         }
     }
 
-    // Spuštění
+    // Spuštění hry
     next();
 </script>
 </body>
